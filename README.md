@@ -12,6 +12,7 @@ API hostname : https://payment.loopz.co.kr <br>
 ### 상황
 
 PG사 승인을 모두 받고 개발을 시작하는 상태라고 가정!<br>
+결제 시스템이 노후되어 10% 확률로 결제가 실패합니다.
 
 ### 요청 및 응답 형식
 요청과 응답의 본문은 JSON 형식입니다.
@@ -27,9 +28,11 @@ Authorization: MY_API_SECRET
 
 ## 인증 API
 
-API KEY 발급 (여러번 발급 가능, 바뀌지 않음) <br>
+API Secret 발급 (여러번 발급 가능, 바뀌지 않음) <br>
 GET<br>
-auth/
+auth/{본인 github id}
+
+
 
 ## 결제 API
 

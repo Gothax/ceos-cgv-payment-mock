@@ -36,15 +36,99 @@ auth/{본인 github id}
 
 ## 결제 API
 
-결제 <br>
+### 결제 <br>
 POST<br>
 payments/{paymentId}/instant <br>
 
-취소 <br>
+#### Request
+pathVariable - paymentId : string <br>
+body - InstantPaymentRequest <br>
+```
+InstantPaymentRequest
+
+storeId : string
+orderName : string
+totalPayAmount : integer
+currency : string (KRW, USD)
+customData : string (optional)
+```
+
+```
+InstantPaymentRequest Example
+
+{
+    "storeId": "my_store_001", 
+    "orderName": "노트북외 1건",
+    "totalPayAmount": 1500000,
+    "currency": "KRW",
+    "customData": "{"item":"노트북","quantity":1}"
+}
+```
+
+#### Response
+```
+{
+    "paymentId": "20251022_0001",
+    "paidAt": "2025-10-22T20:21:35.529482"
+}
+```
+
+### 결제 취소 <br>
 POST<br>
 payments/{paymentId}/cancel <br>
 
-단건 조회 <br>
+#### Request
+pathVariable - paymentId : string <br>
+
+#### Response
+```
+{
+    "paymentId": "20251022_0001",
+    "paymentStatus": "CANCELLED",
+    "orderName": "주문2",
+    "pgProvider": "CEOS_PAY",
+    "currency": "KRW",
+    "customData": null
+    "paidAt": "2025-10-22T20:12:39.295038"
+
+}
+```
+
+
+### 단건 조회 <br>
 GET<br>
 payments/{paymentId} <br>
+
+#### Request
+pathVariable - paymentId : string <br>
+
+#### Response
+```
+{
+    "paymentId": "20251022_0001",
+    "paymentStatus": "CANCELLED",
+    "orderName": "주문2",
+    "pgProvider": "CEOS_PAY",
+    "currency": "KRW",
+    "customData": null
+    "paidAt": "2025-10-22T20:12:39.295038"
+
+}
+```
+
+## 참고
+
+- paymentId는 본인 상점마다 고유한 번호를 부여하여 사용합니다. <br>
+예를 들어 "20251022_0001", "20251022_0002"<br>
+
+포트원에서도 이러한 방법을 사용하고 있습니다. <br>
+
+- orderName은 주문명으로 고객에게 표시되는 정보입니다. <br>
+
+
+- 일반적으로 custom data에 상품 정보, 수량등 주문 정보를 담아 사용합니다. 필수X<br>
+예를 들어 {"item":"노트북","quantity":1} 와 같은 형식입니다. <br>
+
+
+- 모든 결제 내역 조회는 존재하지 않습니다. <br>
 

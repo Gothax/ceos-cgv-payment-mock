@@ -24,7 +24,7 @@ public class AuthService {
     @Transactional
     public AuthResponse getAuthToken(String nickname) {
         Client client = clientRepository.findClientByNickname(nickname)
-                .orElseThrow(() -> new ClientException(ClientErrorCode.CLIENT_NOT_FOUND));
+                .orElseThrow(() -> new ClientException(ClientErrorCode.CLIENT_NOT_FOUND, "등록되지 않은 사용자입니다."));
 
         if (client.getApiKey() != null) {
             return AuthResponse.of(client.getApiKey(), client.getStoreId());

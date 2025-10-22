@@ -24,11 +24,11 @@ V2 API를 사용하기 위해서는 API Secret이 필요하며, 포트원 관리
 
 인증 관련 API를 제외한 모든 API는 HTTP Authorization 헤더로 아래 형식의 인증 정보를 전달해주셔야 합니다.
 
-Authorization: MY_API_SECRET
+Authorization: Bearer MY_API_SECRET
 
 ## 인증 API
 
-API Secret 발급 (여러번 발급 가능, 바뀌지 않음) <br>
+API Secret 발급 (여러번 발급 가능, 최신으로 발급된 secret으로 보내야함) <br>
 GET<br>
 auth/{본인 github id}
 

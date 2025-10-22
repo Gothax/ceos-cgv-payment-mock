@@ -28,7 +28,7 @@ Authorization: Bearer MY_API_SECRET
 
 ## 인증 API
 
-API Secret 발급 (여러번 발급 가능, 최신으로 발급된 secret으로 보내야함) <br>
+API Secret 발급 (여러번 발급 가능, 바뀌지 않음) <br>
 GET<br>
 auth/{본인 github id}
 

@@ -1,6 +1,7 @@
 package kr.co.loopz.ceoscgvpaymentmock.client.controller;
 
 import kr.co.loopz.ceoscgvpaymentmock.client.AuthService;
+import kr.co.loopz.ceoscgvpaymentmock.client.dto.response.AuthResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,11 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping("/auth/{nickname}")
-    public ResponseEntity<String> getAuthToken(
+    public ResponseEntity<AuthResponse> getAuthToken(
             @PathVariable String nickname
     ) {
-        String token = authService.getAuthToken(nickname);
-        return ResponseEntity.ok(token);
+        AuthResponse response = authService.getAuthToken(nickname);
+        return ResponseEntity.ok(response);
     }
 
 

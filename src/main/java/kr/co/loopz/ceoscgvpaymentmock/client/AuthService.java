@@ -1,6 +1,7 @@
 package kr.co.loopz.ceoscgvpaymentmock.client;
 
 import kr.co.loopz.ceoscgvpaymentmock.client.domain.Client;
+import kr.co.loopz.ceoscgvpaymentmock.client.dto.response.AuthResponse;
 import kr.co.loopz.ceoscgvpaymentmock.client.exception.ClientErrorCode;
 import kr.co.loopz.ceoscgvpaymentmock.client.exception.ClientException;
 import kr.co.loopz.ceoscgvpaymentmock.client.repository.ClientRepository;
@@ -21,15 +22,20 @@ public class AuthService {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public String getAuthToken(String nickname) {
+    public AuthResponse getAuthToken(String nickname) {
         Client client = clientRepository.findClientByNickname(nickname)
                 .orElseThrow(() -> new ClientException(ClientErrorCode.CLIENT_NOT_FOUND));
+
+        if (client.getApiKey() != null) {
+            return AuthResponse.of(client.getApiKey(), client.getStoreId());
+        }
+
         Authentication authentication = jwtProvider.getAuthenticationFromUserId(client.getClientId());
 
         String accessToken = jwtProvider.generateAccessToken(authentication, client.getClientId());
         client.updateApiKey(accessToken);
 
-        return accessToken;
+        return AuthResponse.of(accessToken, client.getStoreId());
     }
 
 

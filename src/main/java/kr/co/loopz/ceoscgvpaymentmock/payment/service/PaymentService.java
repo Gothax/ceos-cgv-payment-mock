@@ -2,6 +2,11 @@ package kr.co.loopz.ceoscgvpaymentmock.payment.service;
 
 
 import jakarta.validation.constraints.NotBlank;
+import kr.co.loopz.ceoscgvpaymentmock.client.AuthService;
+import kr.co.loopz.ceoscgvpaymentmock.client.domain.Client;
+import kr.co.loopz.ceoscgvpaymentmock.client.exception.ClientErrorCode;
+import kr.co.loopz.ceoscgvpaymentmock.client.exception.ClientException;
+import kr.co.loopz.ceoscgvpaymentmock.client.repository.ClientRepository;
 import kr.co.loopz.ceoscgvpaymentmock.payment.domain.Payment;
 import kr.co.loopz.ceoscgvpaymentmock.payment.domain.enums.PaymentStatus;
 import kr.co.loopz.ceoscgvpaymentmock.payment.dto.request.InstantPaymentRequest;
@@ -15,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final ClientRepository clientRepository;
 
     @Transactional
     public PaymentCompleteResponse processPayment(
@@ -78,7 +86,11 @@ public class PaymentService {
 
 
     private void checkStoreId(String clientId, String storeId) {
-
+        Client client = clientRepository.findClientByClientId(clientId)
+                .orElseThrow(() -> new ClientException(ClientErrorCode.CLIENT_NOT_FOUND));
+        if (!client.getStoreId().equals(storeId)) {
+            throw new PaymentException(PaymentErrorCode.STORE_NOT_FOUND);
+        }
     }
 
 

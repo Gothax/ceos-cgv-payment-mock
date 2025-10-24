@@ -67,9 +67,44 @@ InstantPaymentRequest Example
 
 #### Response
 ```
+200 OK
 {
     "paymentId": "20251022_0001",
     "paidAt": "2025-10-22T20:21:35.529482"
+}
+
+401 Unauthorized
+API Secret이 잘못된 경우
+{
+    "timestamp": "2025-10-25T08:17:12.345+09:00",
+    "status": 401,
+    "error": "Unauthorized",
+    "path": "/payments/order_011/instant"
+}
+
+404 Not Found
+storeId가 잘못된 경우
+{
+    "path": "/payments/order_011/instant",
+    "messageDetail": "해당 매장을 찾을 수 없습니다.",
+    "errorDetail": "해당 매장을 찾을 수 없습니다."
+}
+
+409 Conflict
+paymentId가 중복되는 경우
+{
+    "path": "/payments/order_007/instant",
+    "messageDetail": "이미 존재하는 결제 정보입니다.",
+    "errorDetail": "이미 존재하는 결제 정보입니다."
+}
+
+
+500 Internal Server Error
+10% 확률로 결제 처리에 실패하는 경우
+{
+    "path": "/payments/order_011/instant",
+    "messageDetail": "결제 처리에 실패했습니다.",
+    "errorDetail": "결제 처리에 실패했습니다."
 }
 ```
 

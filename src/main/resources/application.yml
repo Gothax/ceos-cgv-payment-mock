@@ -6,6 +6,8 @@ spring:
     url: jdbc:postgresql://${POSTGRESQL_HOST}:${POSTGRESQL_PORT}/${POSTGRESQL_DATABASE}
     username: ${POSTGRESQL_USERNAME}
     password: ${POSTGRESQL_PASSWORD}
+    hikari:
+      maximum-pool-size: 50
 
   jpa:
     hibernate:
